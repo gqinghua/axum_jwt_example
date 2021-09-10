@@ -25,14 +25,18 @@ impl User {
     pub async fn create(data: CreateUserData, pool: &PgPool) -> Result<User> {
         let sql = format!(
             "
-            INSERT INTO {} (name, email, password, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO {} (id,name, email, password, created_at, updated_at)
+            VALUES ($1, $2, $3, $4, $5,$6)
             RETURNING *
             ",
             User::TABLE
         );
+        let my_uuid = Uuid::new_v4();
+        println!("my uuid is {}", my_uuid);
+
         Ok(sqlx::query_as(&sql)
-            .bind(data.name)
+        .bind(my_uuid)
+           .bind(data.name)
             .bind(data.email)
             .bind(data.password)
             .bind(data.created_at)

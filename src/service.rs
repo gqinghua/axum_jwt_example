@@ -1,6 +1,8 @@
 use chrono::Utc;
 use sqlx::PgPool;
 
+use uuid::Uuid;
+
 use crate::{
     dto::{LoginInput, RegisterInput},
     error::{Error, Result},
@@ -27,7 +29,8 @@ impl AuthService {
         if User::find_by_name(&input.name, &pool).await.is_ok() {
             return Err(Error::DuplicateUserName);
         }
-
+        let my_uuid = Uuid::new_v4();
+        println!("{}", my_uuid);
         let data = CreateUserData {
             name: input.name,
             email: input.email,

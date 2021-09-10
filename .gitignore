@@ -5,3 +5,4 @@
 diesel.toml
 # Ignore REST Client files
 *.http
+/.idea/
